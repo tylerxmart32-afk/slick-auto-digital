@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DetailingRouteImport } from './routes/detailing'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as TintingRouteImport } from './routes/tinting'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DetailingRoute = DetailingRouteImport.update({
+  id: '/detailing',
+  path: '/detailing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TintingRoute = TintingRouteImport.update({
+  id: '/tinting',
+  path: '/tinting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/detailing': typeof DetailingRoute
+  '/faq': typeof FaqRoute
+  '/tinting': typeof TintingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/detailing': typeof DetailingRoute
+  '/faq': typeof FaqRoute
+  '/tinting': typeof TintingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/detailing': typeof DetailingRoute
+  '/faq': typeof FaqRoute
+  '/tinting': typeof TintingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/contact' | '/detailing' | '/faq' | '/tinting'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/contact' | '/detailing' | '/faq' | '/tinting'
+  id: '__root__' | '/' | '/contact' | '/detailing' | '/faq' | '/tinting'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  DetailingRoute: typeof DetailingRoute
+  FaqRoute: typeof FaqRoute
+  TintingRoute: typeof TintingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/detailing': {
+      id: '/detailing'
+      path: '/detailing'
+      fullPath: '/detailing'
+      preLoaderRoute: typeof DetailingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tinting': {
+      id: '/tinting'
+      path: '/tinting'
+      fullPath: '/tinting'
+      preLoaderRoute: typeof TintingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  DetailingRoute: DetailingRoute,
+  FaqRoute: FaqRoute,
+  TintingRoute: TintingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
