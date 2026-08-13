@@ -12,17 +12,27 @@ export const DIRECTIONS_URL =
 export const SERVICE_TYPES = ["Auto Tinting", "Auto Detailing", "Not Sure — Get Advice"] as const;
 
 export const TINTING_SERVICES = [
-  "Full window tinting",
-  "Front windshield tint",
+  "Rear window & rear windshield tinting",
   "Ceramic tint (premium heat rejection)",
-  "Rear defroster tinting",
-  "Custom darkness levels (legal compliance assured)",
+  "Rear defroster-safe tint",
+  "NJ-compliant installs on every vehicle",
 ];
 
 export const DETAILING_SERVICES = [
   "Exterior wash & wax",
   "Interior detailing & vacuuming",
-  "Paint protection & polishing",
+  "Paint correction & polishing",
   "Ceramic coating",
   "Premium multi-step detailing",
 ];
+
+export const SERVICE_AREA_TOWNS = [
+  "Lakewood",
+  "Toms River",
+  "Brick",
+  "Jackson",
+  "Howell",
+  "Point Pleasant",
+  "Wall",
+  "Manasquan",
+] as const;

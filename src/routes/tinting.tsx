@@ -3,6 +3,7 @@ import { Check, Phone } from "lucide-react";
 
 import { QuoteForm } from "@/components/QuoteForm";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/Reveal";
 import tintingImage from "@/assets/service-tinting.jpg";
 import { PHONE_DISPLAY, PHONE_HREF, TINTING_SERVICES } from "@/lib/site";
 
@@ -43,42 +44,52 @@ function TintingPage() {
       <section className="border-b border-border bg-surface">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:py-20 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="text-xs font-semibold tracking-[0.22em] text-steel uppercase">
-              Auto Tinting
-            </p>
-            <h1 className="mt-4 text-3xl font-extrabold sm:text-5xl">
-              Tint That Blocks Heat, Not Your View
-            </h1>
-            <p className="mt-4 text-muted-foreground">
-              UV protection, privacy, and custom darkness levels installed to factory-quality
-              standards — with legal compliance assured on every vehicle.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <a href="#quote">Get a Tint Quote</a>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href={PHONE_HREF}>
-                  <Phone className="size-4" aria-hidden="true" />
-                  {PHONE_DISPLAY}
-                </a>
-              </Button>
-            </div>
+            <Reveal variant="fade-up">
+              <p className="text-xs font-semibold tracking-[0.22em] text-steel uppercase">
+                Auto Tinting
+              </p>
+            </Reveal>
+            <Reveal variant="fade-up" delay={80}>
+              <h1 className="mt-4 text-3xl font-extrabold sm:text-5xl">
+                Tint That Blocks Heat, Not Your View
+              </h1>
+            </Reveal>
+            <Reveal variant="fade-up" delay={160}>
+              <p className="mt-4 text-muted-foreground">
+                Heat rejection and privacy for the rear glass, installed to factory-quality
+                standards — with every job kept fully compliant with New Jersey law.
+              </p>
+            </Reveal>
+            <Reveal variant="fade-up" delay={240}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg">
+                  <a href="#quote">Get a Tint Quote</a>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <a href={PHONE_HREF}>
+                    <Phone className="size-4" aria-hidden="true" />
+                    {PHONE_DISPLAY}
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
           </div>
-          <img
-            src={tintingImage}
-            alt="Ceramic tint film being squeegeed onto a car window"
-            loading="lazy"
-            width={1200}
-            height={900}
-            className="rounded-lg border border-border object-cover"
-          />
+          <Reveal variant="scale" delay={120}>
+            <img
+              src={tintingImage}
+              alt="Ceramic tint film being squeegeed onto a car window"
+              loading="lazy"
+              width={1200}
+              height={900}
+              className="rounded-lg border border-border object-cover"
+            />
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-2">
-          <div>
+          <Reveal variant="fade-up">
             <h2 className="text-2xl font-bold">What We Install</h2>
             <ul className="mt-6 space-y-3">
               {TINTING_SERVICES.map((service) => (
@@ -88,8 +99,8 @@ function TintingPage() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal variant="fade-up" delay={80}>
             <h2 className="text-2xl font-bold">Ceramic vs. Standard</h2>
             <div className="mt-6 space-y-5">
               {TINT_TIERS.map((tier) => (
@@ -100,19 +111,22 @@ function TintingPage() {
               ))}
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              New Jersey law restricts front side window tint. We walk you through compliant
-              options before any film touches your glass.
+              New Jersey does not permit tint on the windshield or front side windows without a
+              state medical exemption. Rear windows and the rear windshield have no legal
+              darkness limit — we keep every install fully compliant.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section id="quote" className="scroll-mt-20 border-t border-border bg-surface">
         <div className="mx-auto max-w-3xl px-4 py-16 sm:py-20">
-          <h2 className="text-2xl font-bold sm:text-3xl">Get Your Tinting Quote</h2>
-          <div className="mt-8">
+          <Reveal variant="fade-up">
+            <h2 className="text-2xl font-bold sm:text-3xl">Get Your Tinting Quote</h2>
+          </Reveal>
+          <Reveal variant="fade-up" delay={100} className="mt-8">
             <QuoteForm defaultService="Auto Tinting" />
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

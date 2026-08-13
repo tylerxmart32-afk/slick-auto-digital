@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { MobileCallBar } from "@/components/MobileCallBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MOTION_BOOT } from "@/lib/motion/boot";
+import { useMotionRuntime } from "@/lib/motion/use-motion-runtime";
 
 
 function NotFoundComponent() {
@@ -105,8 +107,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        {/* Must run synchronously before first paint, and before HeadContent —
+            route head().scripts render through <Scripts/> in <body>, too late
+            to gate pre-paint styles. See lib/motion/boot.ts. */}
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
         <HeadContent />
       </head>
       <body>
@@ -119,6 +125,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useMotionRuntime();
 
   return (
     <QueryClientProvider client={queryClient}>

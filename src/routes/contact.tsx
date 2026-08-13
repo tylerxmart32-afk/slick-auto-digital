@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContactActions } from "@/components/ContactActions";
 import { LocationMap } from "@/components/LocationMap";
 import { QuoteForm } from "@/components/QuoteForm";
+import { Reveal } from "@/components/motion/Reveal";
 
 const TITLE = "Contact Slick Auto Spa | Lakewood, NJ Tinting & Detailing";
 const DESCRIPTION =
@@ -29,29 +30,39 @@ function ContactPage() {
     <>
       <section className="border-b border-border bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <h1 className="text-3xl font-extrabold sm:text-5xl">Get In Touch</h1>
-          <p className="mt-4 max-w-xl text-muted-foreground">
-            Send your vehicle details and we&apos;ll come back with pricing and the next open
-            appointment. Prefer to talk it through? Call us directly.
-          </p>
+          <Reveal variant="fade-up">
+            <h1 className="text-3xl font-extrabold sm:text-5xl">Get In Touch</h1>
+          </Reveal>
+          <Reveal variant="fade-up" delay={80}>
+            <p className="mt-4 max-w-xl text-muted-foreground">
+              Send your vehicle details and we&apos;ll come back with pricing and the next open
+              appointment. Prefer to talk it through? Call us directly.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        <ContactActions />
+        <Reveal variant="fade-up">
+          <ContactActions />
+        </Reveal>
       </section>
 
       <section id="quote" className="scroll-mt-20 border-t border-border bg-surface">
         <div className="mx-auto max-w-3xl px-4 py-16 sm:py-20">
-          <h2 className="text-2xl font-bold sm:text-3xl">Quote Request</h2>
-          <div className="mt-8">
+          <Reveal variant="fade-up">
+            <h2 className="text-2xl font-bold sm:text-3xl">Quote Request</h2>
+          </Reveal>
+          <Reveal variant="fade-up" delay={100} className="mt-8">
             <QuoteForm defaultService="Not Sure — Get Advice" />
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        <LocationMap />
+        <Reveal variant="fade-up">
+          <LocationMap />
+        </Reveal>
       </section>
     </>
   );

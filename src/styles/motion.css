@@ -1,0 +1,230 @@
+/*
+ * Motion system. Every hidden-pre-reveal rule is scoped under
+ * [data-motion="on"] (set by the boot script in __root.tsx before first
+ * paint) so that with no JS, or JS that fails, the page is a plain fully
+ * visible document — nothing in here can leave content permanently hidden.
+ */
+
+/* ---------- Scroll reveal ---------- */
+
+[data-motion="on"] [data-reveal] {
+  transition:
+    opacity var(--motion-duration-base) var(--ease-out-expo),
+    transform var(--motion-duration-base) var(--ease-out-expo);
+  transition-delay: var(
+    --reveal-delay,
+    min(calc(var(--reveal-index, 0) * var(--motion-stagger, 70ms)), var(--motion-stagger-max))
+  );
+}
+
+[data-motion="on"] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+}
+
+[data-motion="on"] [data-reveal="fade-up"]:not([data-revealed]) {
+  transform: translateY(var(--motion-distance));
+}
+[data-motion="on"] [data-reveal="fade-down"]:not([data-revealed]) {
+  transform: translateY(calc(var(--motion-distance) * -1));
+}
+[data-motion="on"] [data-reveal="slide-left"]:not([data-revealed]) {
+  transform: translateX(var(--motion-distance));
+}
+[data-motion="on"] [data-reveal="slide-right"]:not([data-revealed]) {
+  transform: translateX(calc(var(--motion-distance) * -1));
+}
+[data-motion="on"] [data-reveal="scale"]:not([data-revealed]) {
+  transform: scale(0.94);
+}
+
+[data-motion="on"] [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Bounded opt-in stagger ladder for static markup that isn't explicitly indexed. */
+[data-auto-stagger] > *:nth-child(1) { --reveal-index: 0; }
+[data-auto-stagger] > *:nth-child(2) { --reveal-index: 1; }
+[data-auto-stagger] > *:nth-child(3) { --reveal-index: 2; }
+[data-auto-stagger] > *:nth-child(4) { --reveal-index: 3; }
+[data-auto-stagger] > *:nth-child(5) { --reveal-index: 4; }
+[data-auto-stagger] > *:nth-child(6) { --reveal-index: 5; }
+[data-auto-stagger] > *:nth-child(7) { --reveal-index: 6; }
+[data-auto-stagger] > *:nth-child(8) { --reveal-index: 7; }
+[data-auto-stagger] > *:nth-child(9) { --reveal-index: 8; }
+[data-auto-stagger] > *:nth-child(10) { --reveal-index: 9; }
+[data-auto-stagger] > *:nth-child(11) { --reveal-index: 10; }
+[data-auto-stagger] > *:nth-child(12) { --reveal-index: 11; }
+
+/* ---------- Parallax ---------- */
+
+[data-parallax] {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+}
+
+/* ---------- Spotlight glow ---------- */
+
+.spotlight-card {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) ease;
+  background: radial-gradient(
+    520px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in oklch, var(--color-primary) 22%, transparent),
+    transparent 62%
+  );
+}
+.spotlight-card:hover::after,
+.spotlight-card:focus-within::after {
+  opacity: 1;
+}
+
+/* ---------- Marquee ---------- */
+
+.marquee-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.marquee-rail {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 32s) linear infinite;
+}
+.marquee-viewport[data-direction="right"] .marquee-rail {
+  animation-direction: reverse;
+}
+.marquee-viewport:hover .marquee-rail,
+.marquee-viewport:focus-within .marquee-rail {
+  animation-play-state: paused;
+}
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-inline-end: 2.5rem;
+  flex-shrink: 0;
+}
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-viewport {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee-rail {
+    animation: none;
+  }
+  .marquee-track[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ---------- Before / after slider ---------- */
+
+.ba-root {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: ew-resize;
+}
+.ba-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ba-clip {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--ba-pos, 50%)) 0 0);
+  transition: clip-path var(--motion-duration-fast) var(--ease-out-quart);
+}
+.ba-root[data-dragging] .ba-clip {
+  transition: none;
+  will-change: clip-path;
+}
+.ba-chip {
+  position: absolute;
+  top: 0.75rem;
+  z-index: 2;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--color-background) 70%, transparent);
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  pointer-events: none;
+}
+.ba-chip-before { left: 0.75rem; }
+.ba-chip-after { right: 0.75rem; }
+.ba-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ba-pos, 50%);
+  width: 3px;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  touch-action: none;
+  cursor: ew-resize;
+}
+.ba-handle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  border: 3px solid var(--color-background);
+  box-shadow: 0 4px 16px oklch(0 0 0 / 40%);
+}
+.ba-handle:focus-visible {
+  outline: none;
+}
+.ba-handle:focus-visible::after {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ba-clip {
+    transition: none;
+  }
+}
+
+/* ---------- Defensive reduced-motion reset ---------- */
+/* Belt-and-suspenders: the [data-motion="on"] scoping above already keeps
+   reduced-motion users out of every animated rule, but this guards against
+   the attribute lingering across a mid-session preference change. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-parallax] {
+    transform: none !important;
+  }
+}

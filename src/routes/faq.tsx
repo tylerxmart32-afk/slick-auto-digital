@@ -7,6 +7,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/Reveal";
+import { RevealGroup } from "@/components/motion/RevealGroup";
 
 const TITLE = "Auto Tinting & Detailing FAQ | Slick Auto Spa";
 const DESCRIPTION =
@@ -21,7 +23,7 @@ const FAQS = [
   {
     question: "Is window tint legal in New Jersey?",
     answer:
-      "New Jersey restricts tint on front side windows, while rear side and back glass have more flexibility. We review the legal limits with you and install a compliant configuration for your vehicle.",
+      "New Jersey doesn't permit aftermarket tint on the windshield or front side windows without a state medical exemption. Rear side windows and the rear windshield have no legal darkness limit. We only install what's compliant for your vehicle.",
   },
   {
     question: "How long does a tint installation take?",
@@ -80,28 +82,36 @@ function FaqPage() {
     <>
       <section className="border-b border-border bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <h1 className="text-3xl font-extrabold sm:text-5xl">Frequently Asked Questions</h1>
-          <p className="mt-4 max-w-xl text-muted-foreground">
-            Straight answers on tint, coatings, and what to expect on service day.
-          </p>
+          <Reveal variant="fade-up">
+            <h1 className="text-3xl font-extrabold sm:text-5xl">Frequently Asked Questions</h1>
+          </Reveal>
+          <Reveal variant="fade-up" delay={80}>
+            <p className="mt-4 max-w-xl text-muted-foreground">
+              Straight answers on tint, coatings, and what to expect on service day.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-16 sm:py-20">
-        <Accordion type="single" collapsible className="w-full">
-          {FAQS.map((faq) => (
-            <AccordionItem key={faq.question} value={faq.question}>
-              <AccordionTrigger className="text-left text-base font-semibold">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-muted-foreground">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <RevealGroup as="div" stagger={40}>
+          <Accordion type="single" collapsible className="w-full">
+            {FAQS.map((faq, i) => (
+              <Reveal key={faq.question} as="div" variant="fade-up" index={i}>
+                <AccordionItem value={faq.question}>
+                  <AccordionTrigger className="text-left text-base font-semibold">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </Reveal>
+            ))}
+          </Accordion>
+        </RevealGroup>
 
-        <div className="mt-12 rounded-lg border border-border bg-card p-6 text-center">
+        <Reveal variant="fade-up" delay={100} className="mt-12 rounded-lg border border-border bg-card p-6 text-center">
           <h2 className="text-lg font-bold">Still have a question?</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Send us your vehicle details and we&apos;ll point you to the right service.
@@ -109,7 +119,7 @@ function FaqPage() {
           <Button asChild className="mt-5">
             <Link to="/contact">Ask Us Directly</Link>
           </Button>
-        </div>
+        </Reveal>
       </section>
     </>
   );

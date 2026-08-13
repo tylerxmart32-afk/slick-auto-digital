@@ -6,6 +6,12 @@ import { LocationMap } from "@/components/LocationMap";
 import { QuoteForm } from "@/components/QuoteForm";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Button } from "@/components/ui/button";
+import { CountUp } from "@/components/motion/CountUp";
+import { HeroVideo } from "@/components/motion/HeroVideo";
+import { Marquee } from "@/components/motion/Marquee";
+import { Parallax } from "@/components/motion/Parallax";
+import { Reveal } from "@/components/motion/Reveal";
+import { RevealGroup } from "@/components/motion/RevealGroup";
 import heroCar from "@/assets/hero-car.jpg";
 import detailingImage from "@/assets/service-detailing.jpg";
 import tintingImage from "@/assets/service-tinting.jpg";
@@ -15,12 +21,13 @@ import {
   EMAIL,
   PHONE_DISPLAY,
   PHONE_HREF,
+  SERVICE_AREA_TOWNS,
   TINTING_SERVICES,
 } from "@/lib/site";
 
-const TITLE = "Auto Tinting & Detailing in Lakewood, NJ | Slick Auto Spa";
+const TITLE = "Auto Detailing & Tinting in Lakewood, NJ | Slick Auto Spa";
 const DESCRIPTION =
-  "Premium auto tinting and detailing in Lakewood, NJ. Ceramic tint, paint protection, and showroom detailing for Toms River and the Jersey Shore. Call (732) 693-5154.";
+  "Premium auto detailing and window tinting in Lakewood, NJ. Ceramic coating, paint correction, and showroom detailing for Toms River and the Jersey Shore. Call (732) 693-5154.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -78,54 +85,74 @@ const WHY_SLICK = [
   },
 ];
 
+const STATS = [
+  { value: 166, suffix: "", label: "Facebook followers and growing" },
+  { value: 100, suffix: "%", label: "Satisfaction guarantee on every job" },
+  { value: 8, suffix: "", label: "Jersey Shore towns in our service area" },
+];
+
 function HomePage() {
   return (
     <>
       <section className="relative isolate overflow-hidden">
-        <img
-          src={heroCar}
-          alt="Black sedan with freshly tinted windows and a polished finish"
-          width={1920}
-          height={1280}
-          className="absolute inset-0 -z-10 size-full object-cover"
-        />
+        <Parallax className="absolute inset-0 -z-10" strength={0.12}>
+          <HeroVideo
+            posterSrc={heroCar}
+            posterAlt="Black sedan with freshly tinted windows and a polished finish"
+            width={1920}
+            height={1280}
+            className="size-full"
+          />
+        </Parallax>
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background via-background/90 to-background/40" />
+        <div className="radial-glow absolute inset-x-0 top-0 -z-10 h-[60%]" />
         <div className="mx-auto max-w-6xl px-4 py-24 sm:py-32 lg:py-40">
-          <p className="text-xs font-semibold tracking-[0.22em] text-steel uppercase">
-            Lakewood, NJ &middot; Serving the Jersey Shore
-          </p>
-          <h1 className="mt-5 max-w-2xl text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-6xl">
-            Premium Auto Tinting &amp; Detailing for the Jersey Shore
-          </h1>
-          <p className="mt-5 max-w-lg text-base text-muted-foreground sm:text-lg">
-            Professional craftsmanship. Local trust. Lasting results.
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg">
-              <a href="#quote">Book Your Appointment</a>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <a href={PHONE_HREF}>
-                <Phone className="size-4" aria-hidden="true" />
-                {PHONE_DISPLAY}
-              </a>
-            </Button>
-          </div>
+          <Reveal variant="fade-up" delay={0}>
+            <p className="text-xs font-semibold tracking-[0.22em] text-steel uppercase">
+              Lakewood, NJ &middot; Serving the Jersey Shore
+            </p>
+          </Reveal>
+          <Reveal variant="fade-up" delay={80}>
+            <h1 className="mt-5 max-w-2xl text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-6xl">
+              A <span className="metallic-text">Showroom Finish</span> for the Jersey Shore
+            </h1>
+          </Reveal>
+          <Reveal variant="fade-up" delay={160}>
+            <p className="mt-5 max-w-lg text-base text-muted-foreground sm:text-lg">
+              Premium auto detailing and window tinting. Professional craftsmanship. Local trust.
+              Lasting results.
+            </p>
+          </Reveal>
+          <Reveal variant="fade-up" delay={240}>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg">
+                <a href="#quote">Book Your Appointment</a>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <a href={PHONE_HREF}>
+                  <Phone className="size-4" aria-hidden="true" />
+                  {PHONE_DISPLAY}
+                </a>
+              </Button>
+            </div>
+          </Reveal>
         </div>
       </section>
 
+      <div className="border-y border-border bg-surface py-4">
+        <Marquee label="Areas we serve" durationSeconds={36}>
+          {SERVICE_AREA_TOWNS.map((town) => (
+            <span key={town} className="hairline-rule px-2 text-sm font-medium text-muted-foreground">
+              {town}, NJ
+            </span>
+          ))}
+        </Marquee>
+      </div>
+
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="grid gap-6 md:grid-cols-2">
+        <RevealGroup as="div" stagger={90} className="grid gap-6 md:grid-cols-2">
           <ServiceCard
-            image={tintingImage}
-            imageAlt="Technician applying ceramic tint film to a car window"
-            headline="Professional Auto Tinting"
-            description="UV protection. Privacy. Custom darkness levels. Factory-quality results."
-            services={TINTING_SERVICES}
-            ctaLabel="Explore Tinting"
-            ctaTo="/tinting"
-          />
-          <ServiceCard
+            index={0}
             image={detailingImage}
             imageAlt="Polisher buffing glossy black car paint during a detail"
             headline="Expert Auto Detailing"
@@ -134,48 +161,84 @@ function HomePage() {
             ctaLabel="Explore Detailing"
             ctaTo="/detailing"
           />
-        </div>
+          <ServiceCard
+            index={1}
+            image={tintingImage}
+            imageAlt="Technician applying ceramic tint film to a car window"
+            headline="Professional Auto Tinting"
+            description="UV protection. Privacy. Custom darkness levels. Factory-quality results."
+            services={TINTING_SERVICES}
+            ctaLabel="Explore Tinting"
+            ctaTo="/tinting"
+          />
+        </RevealGroup>
       </section>
 
       <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <h2 className="text-2xl font-bold sm:text-3xl">Why Choose Slick Auto Spa?</h2>
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
-            {WHY_SLICK.map(({ icon: Icon, title, body }) => (
-              <div key={title}>
-                <Icon className="size-6 text-primary" aria-hidden="true" />
-                <h3 className="mt-4 text-lg font-bold">{title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{body}</p>
-              </div>
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+          <RevealGroup as="div" stagger={100} className="grid gap-8 sm:grid-cols-3">
+            {STATS.map((stat, i) => (
+              <Reveal key={stat.label} variant="fade-up" index={i} className="text-center sm:text-left">
+                <CountUp
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  as="p"
+                  className="font-display text-4xl font-extrabold text-foreground sm:text-5xl"
+                />
+                <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
+              </Reveal>
             ))}
-          </div>
-          <ul className="mt-12 grid gap-3 border-t border-border pt-8 text-sm text-muted-foreground sm:grid-cols-3">
-            <li>Trusted by local car owners across the Jersey Shore</li>
-            <li>A growing community of 166 followers on Facebook</li>
-            <li>100% satisfaction guarantee on every service</li>
-          </ul>
+          </RevealGroup>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <ContactActions />
+        <Reveal variant="fade-up">
+          <h2 className="text-2xl font-bold sm:text-3xl">Why Choose Slick Auto Spa?</h2>
+        </Reveal>
+        <RevealGroup as="div" stagger={90} className="mt-10 grid gap-8 sm:grid-cols-3">
+          {WHY_SLICK.map(({ icon: Icon, title, body }, i) => (
+            <Reveal key={title} variant="fade-up" index={i}>
+              <Icon className="size-6 text-primary" aria-hidden="true" />
+              <h3 className="mt-4 text-lg font-bold">{title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{body}</p>
+            </Reveal>
+          ))}
+        </RevealGroup>
+        <Reveal variant="fade" delay={200}>
+          <ul className="mt-12 grid gap-3 border-t border-border pt-8 text-sm text-muted-foreground sm:grid-cols-3">
+            <li>Trusted by local car owners across the Jersey Shore</li>
+            <li>A growing community on Facebook</li>
+            <li>100% satisfaction guarantee on every service</li>
+          </ul>
+        </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <Reveal variant="fade-up">
+          <ContactActions />
+        </Reveal>
       </section>
 
       <section id="quote" className="scroll-mt-20 border-t border-border bg-surface">
         <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
-          <h2 className="text-2xl font-bold sm:text-3xl">Request Your Quote</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Tell us about your vehicle and we&apos;ll follow up with pricing and the next open
-            appointment.
-          </p>
-          <div className="mt-8">
+          <Reveal variant="fade-up">
+            <h2 className="text-2xl font-bold sm:text-3xl">Request Your Quote</h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Tell us about your vehicle and we&apos;ll follow up with pricing and the next open
+              appointment.
+            </p>
+          </Reveal>
+          <Reveal variant="fade-up" delay={100} className="mt-8">
             <QuoteForm />
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <LocationMap />
+        <Reveal variant="fade-up">
+          <LocationMap />
+        </Reveal>
         <p className="sr-only">{ADDRESS_LINE}</p>
       </section>
     </>

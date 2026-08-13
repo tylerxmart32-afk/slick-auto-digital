@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Mail, MapPin, Phone } from "lucide-react";
 
+import logo from "@/assets/logo.png";
 import {
   ADDRESS_LINE,
   EMAIL,
@@ -21,15 +22,8 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-3">
         <div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-lg font-extrabold tracking-tight uppercase">
-              Slick
-            </span>
-            <span className="metallic-text font-display text-lg font-extrabold tracking-tight uppercase">
-              Auto Spa
-            </span>
-          </div>
-          <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+          <img src={logo} alt="Slick Auto Spa" width={849} height={599} className="h-10 w-auto" />
+          <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Premium auto tinting &amp; detailing serving Lakewood, Toms River, and the Jersey
             Shore.
           </p>

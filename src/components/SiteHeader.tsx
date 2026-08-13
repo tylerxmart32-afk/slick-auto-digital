@@ -3,6 +3,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
 
 const NAV_LINKS = [
@@ -18,13 +19,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="flex items-baseline gap-1.5" onClick={() => setOpen(false)}>
-          <span className="font-display text-lg font-extrabold tracking-tight uppercase">
-            Slick
-          </span>
-          <span className="metallic-text font-display text-lg font-extrabold tracking-tight uppercase">
-            Auto Spa
-          </span>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
+          <img src={logo} alt="Slick Auto Spa" width={849} height={599} className="h-11 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">

@@ -1,5 +1,17 @@
 # Slick Auto Digital
 
+## Motion & Brand Update (Aug 2026)
+
+The static build below was brought to life with a zero-dependency motion system and a brand pass built around the client's actual logo:
+
+- **Motion system** (`src/lib/motion/`, `src/hooks/`, `src/components/motion/`): scroll reveals, count-up stats, parallax, a marquee, and a before/after slider — all CSS + browser APIs, no new npm dependencies. SSR-safe (content is fully present in server HTML) and fully honors `prefers-reduced-motion`. A synchronous boot script (`src/lib/motion/boot.ts`) gates pre-paint hiding via `data-motion="on"` on `<html>`, with a 2.5s failsafe so content can never get stuck invisible if hydration fails.
+- **Brand**: `src/assets/logo.png` is the client's real logo (watermark cropped, background removed to transparent). The palette in `src/styles.css` was reworked chrome-forward (near-black base, ice-chrome accents) to match it — the previous saturated-blue palette fought the logo instead of complementing it.
+- **Imagery**: still the three original stock photos. Branded photography/video (Higgsfield-generated, using the real logo) is a follow-up pass — `HeroVideo` and `BeforeAfter` components are built and ready for that media once it lands.
+- **Copy accuracy**: tint-law copy was corrected — NJ prohibits aftermarket tint on the windshield/front side windows without a state medical exemption (not just "restricted"); rear windows and the rear windshield have no legal darkness limit.
+- Fixed a pre-existing accessibility bug: `scroll-behavior: smooth` was unconditional (violated `prefers-reduced-motion`) — now gated behind the media query.
+
+---
+
 # LOVABLE BUILD PROMPT: Slick Auto Spa Website
 
 ## BUSINESS CONTEXT
