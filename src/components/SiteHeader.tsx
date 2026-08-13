@@ -57,9 +57,8 @@ export function SiteHeader() {
             onClick={() => setOpen((value) => !value)}
             className="inline-flex size-9 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none md:hidden"
           >
-            {open ? <Menu className="size-4" /> : <X className="hidden" />}
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
-          </button>
+
         </div>
       </div>
 
